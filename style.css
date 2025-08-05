@@ -113,7 +113,7 @@ footer{
 
 main.layout {
   display: grid;
-  width: 100%;
+  width: calc(100vw - 5fr);
   grid-template-columns: auto 1fr auto;
   grid-template-rows: auto 1fr ;
   padding:0 0.9rem 0 0.9rem ;
@@ -378,3 +378,4 @@ button{
 
 
                      
+
