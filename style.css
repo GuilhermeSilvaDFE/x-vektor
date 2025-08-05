@@ -6,9 +6,6 @@
     
   }
 }
-html{
-  height: 100vh;
-}
 
 :root{
     --border-color: .8px  solid rgb(0, 0, 0);
@@ -25,11 +22,11 @@ html{
 
 
 body {
-  height: 100vh;
+  height: 100dvh;
   margin: 0;
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 8vh 82vh 10vh ;
+  grid-template-rows: 8dvh 82dvh 10dvh ;
   flex-direction: column;
   background-image: url(img/bg.jpg);
   background-position: left;
@@ -40,7 +37,7 @@ body {
 
 
 header{
-    height: 8vh;
+    height: 8dvh;
    
   
 }
@@ -51,12 +48,12 @@ header{
   }
 }
 footer{
-  height: 10vh;
+  height: 10dvh;
   
 }
 header{
   > div{
-    width: 55% ;
+    
     padding: .3rem;
     display: flex;
     align-items: center;
@@ -68,7 +65,6 @@ header{
 }
 footer{
   div{
-    width: 55% ;
     padding: .3rem;
     display: flex;
     align-items: center;
@@ -115,15 +111,15 @@ footer{
 
 }
 
-main{
-  
-}
-.layout {
+main.layout {
   display: grid;
-  width  : 82dvh;
+  width: 82dvh;
+  width: 100%;
+  height: 40%;
   grid-template-columns: auto 1fr auto;
   grid-template-rows: auto 1fr ;
   padding:0 0.9rem 0 0.9rem ;
+  background-color: #5f5f54;
 }
 
 
@@ -188,7 +184,7 @@ main{
 #gride {
   width: 100%;
   max-width: 90vw;
-  aspect-ratio: 21 / 10;
+  aspect-ratio: 21 / 15;
   display: grid;
   grid-template-columns: repeat(21, 1fr);
   grid-template-rows: repeat(15, 1fr);
@@ -251,11 +247,11 @@ main{
     position: fixed;
     border: 1px solid black;
     border-radius: 4px;
-    left: calc(100% - 40dvw);
+    top: 41%;
+    margin: 0 1rem 0 1rem;
     padding: 0px ;
-    margin: 1rem 0px 1rem 0px;
-    width: 35dvw;
-    height:calc(100dvh - 2rem) ;
+    width: calc(100vw - 2rem);
+    height:800px;
     box-shadow: 0px 0px 99px rgba(3, 1, 1, 0.852),-5px 5px 6px rgba(0, 0, 0, 0.205);
     overflow: hidden scroll;
     display: grid;
@@ -279,6 +275,7 @@ main{
    border: 1px solid rgb(0, 0, 0);
    padding: .5rem .5rem 0 .5rem ;
    width: 100%;
+   
    background-image: url(img/bg.jpg);
    background-size: 130%;
    background-position:6px -20px;
@@ -299,7 +296,7 @@ main{
 }
 .header-card{
   .title-card{
-    width: 12rem;
+    width: 30rem;
   }
   .nunber-card{
     color: red;
@@ -372,7 +369,6 @@ button{
     
 
 }
-
 
 
 
