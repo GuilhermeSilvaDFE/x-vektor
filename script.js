@@ -7,6 +7,7 @@ let warrModal = document.querySelector(".warring")
 let conteinerTables = document.querySelector("#conteiner-tables")
 let conteinerCardsOperations = document.querySelector("#conteiner-cards-operetions")
 
+
 // warrModal.showModal()
 
 // -------------------------------------------
