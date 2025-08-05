@@ -27,7 +27,7 @@ body {
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows:100vh;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: 5fr 1fr;
   background-image: url(img/bg.jpg);
   background-position: left;
   background-repeat: repeat;
@@ -368,6 +368,7 @@ button{
     
 
 }
+
 
 
 
