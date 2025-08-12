@@ -55,7 +55,7 @@ header{
     padding: .3rem;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-around;
     gap: 1rem;
 
    
@@ -184,7 +184,7 @@ main.layout {
 
 /* Área onde fica o grid principal */
 .grid-wrapper {
-  border:2px solid #000000;
+  border:3px solid #000000;
   grid-column: 2 / 3;
   grid-row: 2 / 3;
   display: flex;
@@ -464,7 +464,6 @@ button{
 .calculator.calc[data-display="false"]{
   display:block !important;
 } */
-
 
 
 
