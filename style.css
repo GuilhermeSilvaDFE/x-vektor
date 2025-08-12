@@ -6,13 +6,14 @@
 :root{
     --border-color: .8px  solid rgba(16, 16, 16, 0.225);
     --blue-color:  #e2effa;
+    --yelow-color:  #faf745;
     --box-shadow: 0px 0px 99px rgba(3, 1, 1, 0.852),-5px 5px 6px rgba(0, 0, 0, 0.205);
     
 }
 
 *{
     box-sizing: border-box;
-     font-family: "Oswald", sans-serif;
+    font-family: "Oswald", sans-serif;
     font-weight: 600;
     color: rgba(0, 0, 0, 0.738);
    
@@ -82,7 +83,7 @@ footer{
   background-image: url(img/bg.jpg);
   background-size: cover;
   border-radius: 10px;
-  box-shadow: 0px 4px 0 var(--blue-color);
+  box-shadow: 0px 4px 0 var(--yelow-color);
   display: none;
   flex-direction: column;
   align-items: center;
@@ -96,7 +97,7 @@ footer{
     color: #000000;
 
     &::first-letter{
-      color: var(--blue-color);
+      color: var(--yelow-color);
       text-shadow: -2px 2px 0px black;
       font-size: 3rem;
     }
