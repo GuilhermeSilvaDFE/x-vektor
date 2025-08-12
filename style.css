@@ -42,7 +42,7 @@ header{
 
 .logo{
   img{
-    width: 1.8rem;
+    width: 2.5rem;
   }
 }
 footer{
@@ -464,6 +464,7 @@ button{
 .calculator.calc[data-display="false"]{
   display:block !important;
 } */
+
 
 
 
