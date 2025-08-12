@@ -2,15 +2,28 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
-  <title>Drag com interact.js</title>
+  <title>x - vektor</title>
+  <link rel="icon" href="img/favicon.png" type="image/png">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- <dialog  class="warring" >
-        <p> Por favor, rotacione a tela do seu dispositivo.</p>
-        <img src="img/rotate.gif" alt="">
-    </dialog> -->
-    <!-- <dialog  class="card-modal">
+    <dialog  class="warring" >
+        <p> </p>
+        <button >Fechar.</button>
+    </dialog>
+
+     <!-- <div class="calculator calc"  data-display="true">
+                      <input type="text" class="display" disabled>
+                      <div class="keys">
+                        <button>(</button><button>)</button><button>^</button><button class="btn-clear is-color-modified">C</button>
+                        <button>7</button><button>8</button><button>9</button><button>/</button>
+                        <button>4</button><button>5</button><button>6</button><button>*</button>
+                        <button>1</button><button>2</button><button>3</button><button>-</button>
+                        <button class="zero">0</button><button>.</button><button class="equals">=</button><button>+</button>
+                      </div>
+                </div>
+                <button class="toggleCalc">Calcular</button> -->
+    <dialog open class="card-modal">
         
         <div id="conteiner-tables" class="conteiner-cards" >
         
@@ -19,74 +32,73 @@
         
         </div>
        </div>
-    </dialog> -->
-
-  <main class="layout">
-    <div class="painel-topo">
-      <div>A</div>
-      <div>B</div>
-      <div>C</div>
-      <div>D</div>
-      <div>E</div>
-      <div>F</div>
-      <div>G</div>
-      <div>H</div>
-      <div>I</div>
-      <div>J</div>
-      <div>K</div>
-      <div>L</div>
-      <div>M</div>
-      <div>N</div>
-      <div>O</div>
-      <div>P</div>
-      <div>Q</div>
-      <div>R</div>
-      <div>S</div>
-      <div>T</div>
-      <div>U</div>
-    </div>
-    <div class="painel-left">
-      <div>1</div>
-      <div>2</div>
-      <div>3</div>
-      <div>4</div>
-      <div>5</div>
-      <div>6</div>
-      <div>7</div>
-      <div>8</div>
-      <div>9</div>
-      <div>10</div>
-      <div>11</div>
-      <div>12</div>
-      <div>13</div>
-      <div>14</div>
-      <div>15</div>
-    </div>
-    <div class="painel-rigth"></div>
-    <div class="grid-wrapper">
-      <div id="gride"></div>
-    </div>
-  </main>
- 
-  <footer>
-
-    <header>
+    </dialog>
+  <header>
+    <div>
+      <span class="logo"><img src="img/logo-uema.png" alt=""></span>
       <div>
-        <span class="logo"><img src="img/logo-uema.png" alt=""></span>
-        <div>
-          <button  ondblclick="cardModal.close()" onclick="cardModal.show()">Questões</button>
-          <button onclick="valid()">Cofirmar resposta!</button>
-        </div>
-        <span class="logo"><img src="img/uemanet.png" alt=""></span>
+        <button  ondblclick="cardModal.close()" onclick="cardModal.show()">Questões</button>
+        <button onclick="valid()">Cofirmar resposta!</button>
       </div>
-    
-    </header>
+      <span class="logo"><img src="img/uemanet.png" alt=""></span>
+    </div>
+   
+  </header>
+ <main class="layout">
+  <div class="painel-topo">
+    <div>A</div>
+    <div>B</div>
+    <div>C</div>
+    <div>D</div>
+    <div>E</div>
+    <div>F</div>
+    <div>G</div>
+    <div>H</div>
+    <div>I</div>
+    <div>J</div>
+    <div>K</div>
+    <div>L</div>
+    <div>M</div>
+    <div>N</div>
+    <div>O</div>
+    <div>P</div>
+    <div>Q</div>
+    <div>R</div>
+    <div>S</div>
+    <div>T</div>
+    <div>U</div>
+  </div>
+  <div class="painel-left">
+    <div>1</div>
+    <div>2</div>
+    <div>3</div>
+    <div>4</div>
+    <div>5</div>
+    <div>6</div>
+    <div>7</div>
+    <div>8</div>
+    <div>9</div>
+    <div>10</div>
+    <div>11</div>
+    <div>12</div>
+    <div>13</div>
+    <div>14</div>
+    <div>15</div>
+  </div>
+  <div class="painel-rigth"></div>
+  <div class="grid-wrapper">
+    <div id="gride"></div>
+  </div>
+</main>
+
+
+  <footer>
     <div>
       <label class="conteiner-input" for="input-modulo">
         <span>Modulo:</span>
-        <input id="input-modulo" placeholder="___" type="number">
+        <input id="input-modulo" class="input" placeholder="___" type="number">
       </label>
-      <button onclick="creatVector(getInputModuloVector()), clearInputModuloVector()">Adicionar vetor</button>
+      <button onclick="creatVector(getInputValueVector('#input-modulo')), clearInputValueVector('#input-modulo')">Adicionar vetor</button>
       <button onclick="rotacionar()">Rotacionar</button>
       <button class="is-color-modified" onclick="resert()">Resert</button>
     </div>

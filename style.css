@@ -1,15 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&family=Oswald:wght@200..700&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap');
 
 
-@media screen and (min-width:430px)  {
-  /* .warring{
-    
-  } */
-}
+
 
 :root{
-    --border-color: .8px  solid rgb(0, 0, 0);
+    --border-color: .8px  solid rgba(16, 16, 16, 0.225);
     --blue-color:  #e2effa;
+    --box-shadow: 0px 0px 99px rgba(3, 1, 1, 0.852),-5px 5px 6px rgba(0, 0, 0, 0.205);
+    
 }
 
 *{
@@ -26,8 +24,8 @@ body {
   margin: 0;
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows:100vh;
-  grid-template-columns: 5fr 1fr;
+  grid-template-rows: 8dvh 82dvh 10dvh ;
+  flex-direction: column;
   background-image: url(img/bg.jpg);
   background-position: left;
   background-repeat: repeat;
@@ -44,7 +42,7 @@ header{
 
 .logo{
   img{
-    width: 3rem;
+    width: 1.8rem;
   }
 }
 footer{
@@ -53,7 +51,7 @@ footer{
 }
 header{
   > div{
-    
+    width: 55% ;
     padding: .3rem;
     display: flex;
     align-items: center;
@@ -65,22 +63,43 @@ header{
 }
 footer{
   div{
+    width: 55% ;
     padding: .3rem;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 1rem;
 
-    .is-color-modified{
-      background-color: #ff0000;
-    }
+   
   }
+}
+.is-color-modified{
+      background-color: #ff0000;
 }
 
 .warring{
+  width: 30vw;
+  background-image: url(img/bg.jpg);
+  background-size: cover;
   border-radius: 10px;
+  box-shadow: 0px 4px 0 var(--blue-color);
+  display: none;
+  flex-direction: column;
+  align-items: center;
+
   &::backdrop{
     background-color: #000000ad;
+  }
+
+  p{
+    font-size: 1.4rem;
+    color: #000000;
+
+    &::first-letter{
+      color: var(--blue-color);
+      text-shadow: -2px 2px 0px black;
+      font-size: 3rem;
+    }
   }
 }
 
@@ -98,7 +117,7 @@ footer{
 
 }
 
-#input-modulo{
+.input{
   width: 2.5rem;
   border-radius: 3px;
   border: 1.5px solid ;
@@ -113,12 +132,10 @@ footer{
 
 main.layout {
   display: grid;
-  width: calc(100vw - 5fr);
+  width: 82dvh;
   grid-template-columns: auto 1fr auto;
   grid-template-rows: auto 1fr ;
   padding:0 0.9rem 0 0.9rem ;
-  margin: .9rem 0 .9rem 0;
-  background-color: #5f5f54;
 }
 
 
@@ -181,7 +198,7 @@ main.layout {
 
 /* O próprio grid */
 #gride {
-  /* width: 100%; */
+  width: 100%;
   max-width: 90vw;
   aspect-ratio: 21 / 15;
   display: grid;
@@ -237,8 +254,8 @@ main.layout {
     border-radius: 8px;
 }
 
-#card-is-selected{
-  border: 3px solid rgb(244, 233, 11);
+.cards-operetions [data-selected="card-is-selected"]{
+  border: 3px solid rgb(244, 233, 11) !important;
 }
 
 
@@ -246,12 +263,12 @@ main.layout {
     position: fixed;
     border: 1px solid black;
     border-radius: 4px;
-    top: 41%;
-    margin: 0 1rem 0 1rem;
+    left: calc(100% - 40dvw);
     padding: 0px ;
-    width: calc(100vw - 2rem);
-    height:800px;
-    box-shadow: 0px 0px 99px rgba(3, 1, 1, 0.852),-5px 5px 6px rgba(0, 0, 0, 0.205);
+    margin: 1rem 0px 1rem 0px;
+    width: 30dvw;
+    height:calc(100dvh - 2rem) ;
+    box-shadow: var(--box-shadow);
     overflow: hidden scroll;
     display: grid;
     grid-template-columns: 1fr;
@@ -274,15 +291,37 @@ main.layout {
    border: 1px solid rgb(0, 0, 0);
    padding: .5rem .5rem 0 .5rem ;
    width: 100%;
-   
    background-image: url(img/bg.jpg);
    background-size: 130%;
    background-position:6px -20px;
    
-  &[data-ID="conclued"]{
-    background-color: rgb(254, 141, 11);
-  }
+ 
 }
+#conclued{
+  padding: 0;
+   
+    &::before{
+      
+      content:"";
+      background-image: url('img/conclued copy.png');
+      background-color: #0000002a;
+      display: block;
+      background-size: 30%;
+      background-repeat: no-repeat;
+      background-position: center;
+      position: absolute;
+      z-index: 1;
+      width: 100%;
+      height: 57%;
+      backdrop-filter: grayscale(1);
+    }
+
+    button, input, label{
+      display: none;
+    }
+
+}
+
 .conteiner-cards-table{
   display: grid;
   grid-template-columns: 1fr;
@@ -295,7 +334,7 @@ main.layout {
 }
 .header-card{
   .title-card{
-    width: 30rem;
+    width: 12rem;
   }
   .nunber-card{
     color: red;
@@ -339,6 +378,22 @@ main.layout {
   
   
 }
+.img-vectors:hover{
+  border: 2px solid rgb(244, 233, 11) ; 
+}
+
+.conteiner-btn-cards-operetion{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: 1fr;
+  margin-bottom: .3rem;
+  grid-gap: .3rem;
+
+  .conteiner-input{
+    justify-content: space-between;
+  }
+
+}
 
 button{
     padding: .2rem;
@@ -369,6 +424,47 @@ button{
 
 }
 
+/*
+
+.calculator{
+  display: none;
+  position: absolute;
+  background-size: 180%;
+  background-position: 0 80%;
+  padding: 5px;
+  border: 2px solid black;
+  border-radius: 3px ;
+  box-shadow: 0px 0px 20px rgba(3, 1, 1, 0.852),-5px 5px 6px rgba(0, 0, 0, 0.205);
+  
+
+  
+} 
+.display{
+  margin-bottom: .2rem;
+  border: .8px solid black;
+  border-radius: 3px ;
+  background-color: #5f5f54;
+
+}
+.toggleCalc{
+  margin-bottom: .5rem;
+  margin-left: calc(100% - 52.89px);
+}
+.keys{
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  grid-gap: .2rem;
+  
+
+}
+
+
+
+.calculator.calc[data-display="false"]{
+  display:block !important;
+} */
+
 
 
 
@@ -378,4 +474,3 @@ button{
 
 
                      
-

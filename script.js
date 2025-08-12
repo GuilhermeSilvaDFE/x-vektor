@@ -1,14 +1,55 @@
 
 
+
 let gride = document.querySelector("#gride");
 let vetorSelecionado = null;
 let cardModal = document.querySelector(".card-modal")
 let warrModal = document.querySelector(".warring")
 let conteinerTables = document.querySelector("#conteiner-tables")
 let conteinerCardsOperations = document.querySelector("#conteiner-cards-operetions")
+let currentDataBase = modifiersToDataBase(getDataBase(1));
+let currentDataBaseTwo = getDataBase(2)
 
 
-// warrModal.showModal()
+// Criando objetos de som
+const somAcerto = new Audio('sounds/success.mp3');
+const somErro = new Audio('sounds/fail.mp3');
+somAcerto.volume = 0.7
+somErro.volume = 1
+
+
+// Funções para tocar o som
+function tocarSomAcerto() {
+  somAcerto.currentTime = 0; // volta para o início
+  
+  somAcerto.play();
+}
+
+function tocarSomErro() {
+  somErro.currentTime = 0;
+  somErro.play();
+}
+
+function warr(message){
+  let messageContent  = warrModal.querySelector("p")
+  let btnClose = warrModal.querySelector("button")
+  messageContent.textContent = message
+
+  warrModal.style.display = "flex"
+
+  
+  warrModal.showModal()
+  setTimeout(()=>{
+    warrModal.close()
+    warrModal.style.display = "none"
+  }, 5000)
+  btnClose.addEventListener("click",()=>{
+    warrModal.close()
+    warrModal.style.display = "none"
+  })
+
+}
+
 
 // -------------------------------------------
 // Interact draggable
@@ -170,9 +211,9 @@ function creatVector(numColunas) {
 
   wrapper.innerHTML = `
     <svg class="vetor" data-angle="0">
-      <polygon id="base" fill="white" />
-      <polygon id="corpo" fill="white" />
-      <polygon id="cabeca" fill="white" />
+      <polygon id="base" fill="black" />
+      <polygon id="corpo" fill="black" />
+      <polygon id="cabeca" fill="black" />
     </svg>
   `;
 
@@ -246,7 +287,7 @@ function rotacionar() {
   const wrapper = vetorSelecionado.closest(".draggable");
 
   let angle = parseFloat(vetorSelecionado.getAttribute("data-angle")) || 0;
-  angle = (angle + 45) % 360;
+  angle = (angle + 15) % 360;
 
   vetorSelecionado.setAttribute("data-angle", angle);
 
@@ -394,32 +435,462 @@ function getDataBase(nunber){
 
   let dataBaseTwo = {
     quests:[
+      //{
+      //   name:"img/quests-fase-two/q1.png",
+      //   id: null,
+      //   operationResult: 222,
+      //   vectors: `
+      //     <div class="draggable" data-x="49.28001403808594" data-y="204.15998077392578" data-colspan="7" style="position: absolute; transform: translate(49.28px, 204.16px) rotate(315deg);" data-name="Vetor" data-colstart="3" data-rowstart="10" data-colend="8" data-rowend="5">
+      //       <svg class="vetor is-selected" data-angle="315" width="216.14333089192706" viewBox="0 0 216.14333089192706 24" style="outline: none;">
+      //         <polygon id="base" fill="black" points="0,10 2,10 2,14 0,14"></polygon>
+      //         <polygon id="corpo" fill="black" points="2,10 
+      //         209.96780715215772,10 
+      //         216.14333089192706,12 
+      //         209.96780715215772,14 
+      //         2,14" data-comprimento="209.96780715215772"></polygon>
+      //         <polygon id="cabeca" fill="black"></polygon>
+      //       </svg>
+      //     </div><div class="draggable" data-x="236.79999542236328" data-y="284.1599349975586" data-colspan="4" style="position: absolute; transform: translate(236.8px, 284.16px) rotate(0deg);" data-name="Vetor" data-colstart="8" data-rowstart="10" data-colend="12" data-rowend="10">
+      //       <svg class="vetor is-selected" data-angle="0" width="123.5104747953869" viewBox="0 0 123.5104747953869 24" style="outline: none;">
+      //         <polygon id="base" fill="black" points="0,10 2,10 2,14 0,14"></polygon>
+      //         <polygon id="corpo" fill="black" points="2,10 
+      //         117.33495105561755,10 
+      //         123.5104747953869,12 
+      //         117.33495105561755,14 
+      //         2,14" data-comprimento="117.33495105561755"></polygon>
+      //         <polygon id="cabeca" fill="black"></polygon>
+      //       </svg>
+      //     </div><div class="draggable" data-x="371.19998931884766" data-y="275.2000045776367" data-colspan="5" style="position: absolute; transform: translate(371.2px, 275.2px) rotate(90deg);" data-name="Vetor" data-colstart="15" data-rowstart="7" data-colend="15" data-rowend="12">
+      //       <svg class="vetor is-selected" data-angle="90" width="154.38809349423363" viewBox="0 0 154.38809349423363 24" style="outline: yellow dotted 3px;">
+      //         <polygon id="base" fill="black" points="0,10 2,10 2,14 0,14"></polygon>
+      //         <polygon id="corpo" fill="black" points="2,10 
+      //         148.21256975446428,10 
+      //         154.38809349423363,12 
+      //         148.21256975446428,14 
+      //         2,14" data-comprimento="148.21256975446428"></polygon>
+      //         <polygon id="cabeca" fill="black"></polygon>
+      //       </svg>
+      //     </div>
+      //   `,
+      //   vectorsResult:`
+      //   <div class="draggable" data-x="49.28001403808594" data-y="204.15998077392578" data-colspan="7" style="position: absolute; transform: translate(49.28px, 204.16px) rotate(315deg);" data-name="Vetor" data-colstart="3" data-rowstart="10" data-colend="8" data-rowend="5">
+      //             <svg class="vetor is-selected" data-angle="315" width="216.14333089192706" viewBox="0 0 216.14333089192706 24" style="outline: none;">
+      //               <polygon id="base" fill="black" points="0,10 2,10 2,14 0,14"></polygon>
+      //               <polygon id="corpo" fill="black" points="2,10 
+      //       209.96780715215772,10 
+      //       216.14333089192706,12 
+      //       209.96780715215772,14 
+      //       2,14" data-comprimento="209.96780715215772"></polygon>
+      //               <polygon id="cabeca" fill="black"></polygon>
+      //             </svg>
+      //           </div><div class="draggable" data-x="229.1199722290039" data-y="131.1999282836914" data-colspan="4" style="position: absolute; transform: translate(229.12px, 131.2px) rotate(0deg);" data-name="Vetor" data-colstart="8" data-rowstart="10" data-colend="12" data-rowend="10">
+      //             <svg class="vetor is-selected" data-angle="0" width="123.5104747953869" viewBox="0 0 123.5104747953869 24" style="outline: none;">
+      //               <polygon id="base" fill="black" points="0,10 2,10 2,14 0,14"></polygon>
+      //               <polygon id="corpo" fill="black" points="2,10 
+      //       117.33495105561755,10 
+      //       123.5104747953869,12 
+      //       117.33495105561755,14 
+      //       2,14" data-comprimento="117.33495105561755"></polygon>
+      //               <polygon id="cabeca" fill="black"></polygon>
+      //             </svg>
+      //           </div><div class="draggable" data-x="273.91992950439453" data-y="205.43999481201172" data-colspan="5" style="position: absolute; transform: translate(273.92px, 205.44px) rotate(90deg);" data-name="Vetor" data-colstart="15" data-rowstart="7" data-colend="15" data-rowend="12">
+      //             <svg class="vetor is-selected" data-angle="90" width="154.38809349423363" viewBox="0 0 154.38809349423363 24" style="outline: none;">
+      //               <polygon id="base" fill="black" points="0,10 2,10 2,14 0,14"></polygon>
+      //               <polygon id="corpo" fill="black" points="2,10 
+      //       148.21256975446428,10 
+      //       154.38809349423363,12 
+      //       148.21256975446428,14 
+      //       2,14" data-comprimento="148.21256975446428"></polygon>
+      //               <polygon id="cabeca" fill="black"></polygon>
+      //             </svg>
+      //           </div><div class="draggable" data-x="78.71998596191406" data-y="280.95999908447266" data-colspan="9" data-name="Vetor" data-colstart="3" data-rowstart="10" data-colend="12" data-rowend="10" style="position: absolute; transform: translate(78.72px, 280.96px) rotate(0deg);">
+      //     <svg class="vetor is-selected" data-angle="0" width="277.8985682896205" viewBox="0 0 277.8985682896205 24" style="outline: yellow dotted 3px;">
+      //       <polygon id="base" fill="red" points="0,10 2,10 2,14 0,14"></polygon>
+      //       <polygon id="corpo" fill="red" points="2,10 
+      //       271.7230445498512,10 
+      //       277.8985682896205,12 
+      //       271.7230445498512,14 
+      //       2,14" data-comprimento="271.7230445498512"></polygon>
+      //       <polygon id="cabeca" fill="black"></polygon>
+      //     </svg>
+      //   </div>
+      //   `
+      // },
       {
-        name:"img/quests-fase-two/q8.png",
-        vectors:[
-          {name: 'Vetor', modulo: 3, colStart: 3, rowStart: 7, colEnd: 3, rowEnd: 4}, 
-	        {name: 'Vetor', modulo: 4, colStart: 6, rowStart: 5, colEnd: 10, rowEnd: 5} 
-        ]
+        name:"img/quests-fase-two/q2.png",
+        id: null,
+        operationResult: 13,
+        vectors:`
+         <div class="draggable" data-x="1.279998779296875" data-y="170.8800277709961" data-colspan="5" style="position: absolute; transform: translate(1.28px, 170.88px) rotate(270deg);" data-name="Vetor" data-colstart="3" data-rowstart="9" data-colend="3" data-rowend="4">
+          <svg class="vetor is-selected" data-angle="270" width="154.38809349423363" viewBox="0 0 154.38809349423363 24" style="outline: yellow dotted 3px;">
+            <polygon id="base" fill="black" points="0,10 2,10 2,14 0,14"></polygon>
+            <polygon id="corpo" fill="black" points="2,10 
+            148.21256975446428,10 
+            154.38809349423363,12 
+            148.21256975446428,14 
+            2,14" data-comprimento="148.21256975446428"></polygon>
+            <polygon id="cabeca" fill="black"></polygon>
+          </svg>
+        </div><div class="draggable" data-x="262.39996337890625" data-y="190.08001708984375" data-colspan="12" style="position: absolute; transform: translate(262.4px, 190.08px) rotate(0deg);" data-name="Vetor" data-colstart="9" data-rowstart="7" data-colend="21" data-rowend="7">
+          <svg class="vetor is-selected" data-angle="0" width="370.53142438616067" viewBox="0 0 370.53142438616067 24" style="outline: none;">
+            <polygon id="base" fill="black" points="0,10 2,10 2,14 0,14"></polygon>
+            <polygon id="corpo" fill="black" points="2,10 
+            364.3559006463913,10 
+            370.53142438616067,12 
+            364.3559006463913,14 
+            2,14" data-comprimento="364.3559006463913"></polygon>
+            <polygon id="cabeca" fill="black"></polygon>
+          </svg>
+        </div>
+        `,
+        vectorsResult:`
+           <div class="draggable" data-x="32.64000701904297" data-y="233.6000213623047" data-colspan="3" style="position: absolute; transform: translate(32.64px, 233.6px) rotate(270deg);" data-name="Vetor" data-colstart="3" data-rowstart="10" data-colend="3" data-rowend="7">
+            <svg class="vetor is-selected" data-angle="270" width="92.63285609654017" viewBox="0 0 92.63285609654017 24" style="outline: none;">
+              <polygon id="base" fill="black" points="0,10 2,10 2,14 0,14"></polygon>
+              <polygon id="corpo" fill="black" points="2,10 
+              86.45733235677082,10 
+              92.63285609654017,12 
+              86.45733235677082,14 
+              2,14" data-comprimento="86.45733235677082"></polygon>
+                      <polygon id="cabeca" fill="black"></polygon>
+                    </svg>
+                  </div><div class="draggable" data-x="72.96000671386719" data-y="283.51995849609375" data-colspan="6" style="position: absolute; transform: translate(72.96px, 283.52px) rotate(0deg);" data-name="Vetor" data-colstart="10" data-rowstart="8" data-colend="16" data-rowend="8">
+                    <svg class="vetor is-selected" data-angle="0" width="185.26571219308033" viewBox="0 0 185.26571219308033 24" style="outline: none;">
+                      <polygon id="base" fill="black" points="0,10 2,10 2,14 0,14"></polygon>
+                      <polygon id="corpo" fill="black" points="2,10 
+              179.090188453311,10 
+              185.26571219308033,12 
+              179.090188453311,14 
+              2,14" data-comprimento="179.090188453311"></polygon>
+                      <polygon id="cabeca" fill="black"></polygon>
+                    </svg>
+                  </div><div class="draggable" data-x="60.80000305175781" data-y="228.48001098632812" data-colspan="7" style="position: absolute; transform: translate(60.8px, 228.48px) rotate(330deg);" data-name="Vetor" data-colstart="3" data-rowstart="10" data-colend="9" data-rowend="7">
+            <svg class="vetor is-selected" data-angle="330" width="216.14333089192706" viewBox="0 0 216.14333089192706 24" style="outline: yellow dotted 3px;">
+              <polygon id="base" fill="red" points="0,10 2,10 2,14 0,14"></polygon>
+              <polygon id="corpo" fill="red" points="2,10 
+              209.96780715215772,10 
+              216.14333089192706,12 
+              209.96780715215772,14 
+              2,14" data-comprimento="209.96780715215772"></polygon>
+              <polygon id="cabeca" fill="black"></polygon>
+            </svg>
+          </div>
+        `
+      },
+      // {
+      //   name:"img/quests-fase-two/q3.png",
+      //   id: null,
+      //   operationResult: 3,
+      //   vectors:`
+      //     <div class="draggable" data-x="218.24002075195312" data-y="235.52001953125" data-colspan="10" style="position: absolute; transform: translate(218.24px, 235.52px) rotate(315deg);" data-name="Vetor" data-colstart="9" data-rowstart="12" data-colend="16" data-rowend="5">
+      //       <svg class="vetor is-selected" data-angle="315" width="308.77618698846726" viewBox="0 0 308.77618698846726 24" style="outline: none;">
+      //         <polygon id="base" fill="black" points="0,10 2,10 2,14 0,14"></polygon>
+      //         <polygon id="corpo" fill="black" points="2,10 
+      //         302.6006632486979,10 
+      //         308.77618698846726,12 
+      //         302.6006632486979,14 
+      //         2,14" data-comprimento="302.6006632486979"></polygon>
+      //         <polygon id="cabeca" fill="black"></polygon>
+      //       </svg>
+      //     </div><div class="draggable" data-x="13.44000244140625" data-y="143.35997009277344" data-colspan="6" style="position: absolute; transform: translate(13.44px, 143.36px) rotate(90deg);" data-name="Vetor" data-colstart="4" data-rowstart="3" data-colend="4" data-rowend="9">
+      //       <svg class="vetor is-selected" data-angle="90" width="185.26571219308033" viewBox="0 0 185.26571219308033 24" style="outline: yellow dotted 3px;">
+      //         <polygon id="base" fill="black" points="0,10 2,10 2,14 0,14"></polygon>
+      //         <polygon id="corpo" fill="black" points="2,10 
+      //         179.090188453311,10 
+      //         185.26571219308033,12 
+      //         179.090188453311,14 
+      //         2,14" data-comprimento="179.090188453311"></polygon>
+      //         <polygon id="cabeca" fill="black"></polygon>
+      //       </svg>
+      //   </div>
+      //   `,
+      //     vectorsResult:`
+      //     <div class="draggable" data-x="218.24002075195312" data-y="235.52001953125" data-colspan="10" style="position: absolute; transform: translate(218.24px, 235.52px) rotate(315deg);" data-name="Vetor" data-colstart="9" data-rowstart="12" data-colend="16" data-rowend="5">
+      //       <svg class="vetor is-selected" data-angle="315" width="308.77618698846726" viewBox="0 0 308.77618698846726 24" style="outline: none;">
+      //         <polygon id="base" fill="black" points="0,10 2,10 2,14 0,14"></polygon>
+      //         <polygon id="corpo" fill="black" points="2,10 
+      //         302.6006632486979,10 
+      //         308.77618698846726,12 
+      //         302.6006632486979,14 
+      //         2,14" data-comprimento="302.6006632486979"></polygon>
+      //                 <polygon id="cabeca" fill="black"></polygon>
+      //               </svg>
+      //             </div><div class="draggable" data-x="369.9199981689453" data-y="234.23997497558594" data-colspan="7" style="position: absolute; transform: translate(369.92px, 234.24px) rotate(90deg);" data-name="Vetor" data-colstart="16" data-rowstart="5" data-colend="16" data-rowend="12">
+      //       <svg class="vetor is-selected" data-angle="90" width="216.14333089192706" viewBox="0 0 216.14333089192706 24" style="outline: none;">
+      //         <polygon id="base" fill="black" points="0,10 2,10 2,14 0,14"></polygon>
+      //         <polygon id="corpo" fill="black" points="2,10 
+      //         209.96780715215772,10 
+      //         216.14333089192706,12 
+      //         209.96780715215772,14 
+      //         2,14" data-comprimento="209.96780715215772"></polygon>
+      //         <polygon id="cabeca" fill="black"></polygon>
+      //       </svg>
+      //     </div><div class="draggable" data-x="260.48004150390625" data-y="345.59999084472656" data-colspan="7" style="position: absolute; transform: translate(260.48px, 345.6px) rotate(0deg);" data-name="Vetor" data-colstart="9" data-rowstart="12" data-colend="16" data-rowend="12">
+      //       <svg class="vetor is-selected" data-angle="0" width="216.14333089192706" viewBox="0 0 216.14333089192706 24" style="outline: yellow dotted 3px;">
+      //         <polygon id="base" fill="red" points="0,10 2,10 2,14 0,14"></polygon>
+      //         <polygon id="corpo" fill="red" points="2,10 
+      //         209.96780715215772,10 
+      //         216.14333089192706,12 
+      //         209.96780715215772,14 
+      //         2,14" data-comprimento="209.96780715215772"></polygon>
+      //         <polygon id="cabeca" fill="black"></polygon>
+      //       </svg>
+      //     </div>
+          
+      //     `
+
+      // },
+      {
+        name:"img/quests-fase-two/q4.png",
+        id: null,
+        operationResult: 10,
+        vectors:`
+          <div class="draggable" data-x="55.040008544921875" data-y="63.99999237060547" data-colspan="16" style="position: absolute; transform: translate(55.04px, 64px) rotate(0deg);" data-name="Vetor" data-colstart="2" data-rowstart="3" data-colend="18" data-rowend="3">
+            <svg class="vetor is-selected" data-angle="0" width="494.0418991815476" viewBox="0 0 494.0418991815476 24" style="outline: none;">
+              <polygon id="base" fill="black" points="0,10 2,10 2,14 0,14"></polygon>
+              <polygon id="corpo" fill="black" points="2,10 
+              487.86637544177825,10 
+              494.0418991815476,12 
+              487.86637544177825,14 
+              2,14" data-comprimento="487.86637544177825"></polygon>
+              <polygon id="cabeca" fill="black"></polygon>
+            </svg>
+          </div><div class="draggable" data-x="203.5199737548828" data-y="344.3199920654297" data-colspan="6" style="position: absolute; transform: translate(203.52px, 344.32px) rotate(0deg);" data-name="Vetor" data-colstart="7" data-rowstart="12" data-colend="13" data-rowend="12">
+            <svg class="vetor is-selected" data-angle="0" width="185.26571219308033" viewBox="0 0 185.26571219308033 24" style="outline: yellow dotted 3px;">
+              <polygon id="base" fill="black" points="0,10 2,10 2,14 0,14"></polygon>
+              <polygon id="corpo" fill="black" points="2,10 
+              179.090188453311,10 
+              185.26571219308033,12 
+              179.090188453311,14 
+              2,14" data-comprimento="179.090188453311"></polygon>
+              <polygon id="cabeca" fill="black"></polygon>
+            </svg>
+          </div>
+        `,
+        vectorsResult:`
+         <div class="draggable" data-x="45.44000244140625" data-y="65.2800064086914" data-colspan="16" style="position: absolute; transform: translate(45.44px, 65.28px) rotate(0deg);" data-name="Vetor" data-colstart="2" data-rowstart="3" data-colend="18" data-rowend="3">
+            <svg class="vetor is-selected" data-angle="0" width="494.0418991815476" viewBox="0 0 494.0418991815476 24" style="outline: none;">
+              <polygon id="base" fill="black" points="0,10 2,10 2,14 0,14"></polygon>
+              <polygon id="corpo" fill="black" points="2,10 
+              487.86637544177825,10 
+              494.0418991815476,12 
+              487.86637544177825,14 
+              2,14" data-comprimento="487.86637544177825"></polygon>
+                      <polygon id="cabeca" fill="black"></polygon>
+                    </svg>
+                  </div><div class="draggable" data-x="199.0399932861328" data-y="339.1999816894531" data-colspan="6" style="position: absolute; transform: translate(199.04px, 339.2px) rotate(180deg);" data-name="Vetor" data-colstart="13" data-rowstart="12" data-colend="7" data-rowend="12">
+            <svg class="vetor is-selected" data-angle="180" width="185.26571219308033" viewBox="0 0 185.26571219308033 24" style="outline: none;">
+              <polygon id="base" fill="black" points="0,10 2,10 2,14 0,14"></polygon>
+              <polygon id="corpo" fill="black" points="2,10 
+              179.090188453311,10 
+              185.26571219308033,12 
+              179.090188453311,14 
+              2,14" data-comprimento="179.090188453311"></polygon>
+              <polygon id="cabeca" fill="black"></polygon>
+            </svg>
+          </div><div class="draggable" data-x="44.79998779296875" data-y="405.11998748779297" data-colspan="10" style="position: absolute; transform: translate(44.8px, 405.12px) rotate(0deg);" data-name="Vetor" data-colstart="2" data-rowstart="14" data-colend="12" data-rowend="14">
+            <svg class="vetor is-selected" data-angle="0" width="308.77618698846726" viewBox="0 0 308.77618698846726 24" style="outline: yellow dotted 3px;">
+              <polygon id="base" fill="red" points="0,10 2,10 2,14 0,14"></polygon>
+              <polygon id="corpo" fill="red" points="2,10 
+              302.6006632486979,10 
+              308.77618698846726,12 
+              302.6006632486979,14 
+              2,14" data-comprimento="302.6006632486979"></polygon>
+              <polygon id="cabeca" fill="black"></polygon>
+            </svg>
+          </div>
+ 
+       `
       },
       {
-        name:"img/quests-fase-two/q8.png",
-        vectors:[
-          {name: 'Vetor', modulo: 3, colStart: 3, rowStart: 7, colEnd: 3, rowEnd: 4}, 
-	        {name: 'Vetor', modulo: 4, colStart: 6, rowStart: 5, colEnd: 10, rowEnd: 5}
-        ]
+        name:"img/quests-fase-two/q5.png",
+        id: null,
+        operationResult: 14,
+        vectors:`
+          <div class="draggable" data-x="14.720001220703125" data-y="158.08000946044922" data-colspan="4" style="position: absolute; transform: translate(14.72px, 158.08px) rotate(0deg);" data-name="Vetor" data-colstart="1" data-rowstart="6" data-colend="5" data-rowend="6">
+              <svg class="vetor is-selected" data-angle="0" width="123.5104747953869" viewBox="0 0 123.5104747953869 24" style="outline: none;">
+                <polygon id="base" fill="black" points="0,10 2,10 2,14 0,14"></polygon>
+                <polygon id="corpo" fill="black" points="2,10 
+                117.33495105561755,10 
+                123.5104747953869,12 
+                117.33495105561755,14 
+                2,14" data-comprimento="117.33495105561755"></polygon>
+                <polygon id="cabeca" fill="black"></polygon>
+              </svg>
+            </div><div class="draggable" data-x="263.03997802734375" data-y="189.44001007080078" data-colspan="2" style="position: absolute; transform: translate(263.04px, 189.44px) rotate(0deg);" data-name="Vetor" data-colstart="9" data-rowstart="7" data-colend="11" data-rowend="7">
+              <svg class="vetor is-selected" data-angle="0" width="61.75523739769345" viewBox="0 0 61.75523739769345 24" style="outline: yellow dotted 3px;">
+                <polygon id="base" fill="black" points="0,10 2,10 2,14 0,14"></polygon>
+                <polygon id="corpo" fill="black" points="2,10 
+                55.5797136579241,10 
+                61.75523739769345,12 
+                55.5797136579241,14 
+                2,14" data-comprimento="55.5797136579241"></polygon>
+                <polygon id="cabeca" fill="black"></polygon>
+              </svg>
+          </div>
+
+        `,
+        vectorsResult:`
+        <div class="draggable" data-x="46.720001220703125" data-y="157.43999481201172" data-colspan="8" style="position: absolute; transform: translate(46.72px, 157.44px) rotate(0deg);" data-name="Vetor" data-colstart="2" data-rowstart="6" data-colend="10" data-rowend="6">
+          <svg class="vetor is-selected" data-angle="0" width="247.0209495907738" viewBox="0 0 247.0209495907738 24" style="outline: none;">
+            <polygon id="base" fill="black" points="0,10 2,10 2,14 0,14"></polygon>
+            <polygon id="corpo" fill="black" points="2,10 
+            240.84542585100445,10 
+            247.0209495907738,12 
+            240.84542585100445,14 
+            2,14" data-comprimento="240.84542585100445"></polygon>
+            <polygon id="cabeca" fill="black"></polygon>
+          </svg>
+        </div><div class="draggable" data-x="289.2799835205078" data-y="219.51998138427734" data-colspan="6" style="position: absolute; transform: translate(289.28px, 219.52px) rotate(0deg);" data-name="Vetor" data-colstart="10" data-rowstart="8" data-colend="16" data-rowend="8">
+          <svg class="vetor is-selected" data-angle="0" width="185.26571219308033" viewBox="0 0 185.26571219308033 24" style="outline: none;">
+            <polygon id="base" fill="black" points="0,10 2,10 2,14 0,14"></polygon>
+            <polygon id="corpo" fill="black" points="2,10 
+            179.090188453311,10 
+            185.26571219308033,12 
+            179.090188453311,14 
+            2,14" data-comprimento="179.090188453311"></polygon>
+            <polygon id="cabeca" fill="black"></polygon>
+          </svg>
+        </div><div class="draggable" data-x="43.52001953125" data-y="282.8800048828125" data-colspan="14" style="position: absolute; transform: translate(43.52px, 282.88px) rotate(0deg);" data-name="Vetor" data-colstart="2" data-rowstart="10" data-colend="16" data-rowend="10">
+          <svg class="vetor is-selected" data-angle="0" width="432.28666178385413" viewBox="0 0 432.28666178385413 24" style="outline: yellow dotted 3px;">
+            <polygon id="base" fill="red" points="0,10 2,10 2,14 0,14"></polygon>
+            <polygon id="corpo" fill="red" points="2,10 
+            426.1111380440848,10 
+            432.28666178385413,12 
+            426.1111380440848,14 
+            2,14" data-comprimento="426.1111380440848"></polygon>
+            <polygon id="cabeca" fill="black"></polygon>
+          </svg>
+        </div>
+
+        `
+
       },
       {
-        name:"img/quests-fase-two/q8.png",
-        vectors:[
-          {name: 'Vetor', modulo: 3, colStart: 3, rowStart: 7, colEnd: 3, rowEnd: 4}, 
-	        {name: 'Vetor', modulo: 4, colStart: 6, rowStart: 5, colEnd: 10, rowEnd: 5}
-        ]
+        name:"img/quests-fase-two/q6.png",
+        id: null,
+        operationResult: 16,
+        vectors:`
+          <div class="draggable" data-x="-17.920005798339844" data-y="61.43999481201172" data-colspan="4" style="position: absolute; transform: translate(-17.92px, 61.44px) rotate(90deg);" data-name="Vetor" data-colstart="2" data-rowstart="1" data-colend="2" data-rowend="5">
+              <svg class="vetor is-selected" data-angle="90" width="123.5104747953869" viewBox="0 0 123.5104747953869 24" style="outline: none;">
+                <polygon id="base" fill="black" points="0,10 2,10 2,14 0,14"></polygon>
+                <polygon id="corpo" fill="black" points="2,10 
+                117.33495105561755,10 
+                123.5104747953869,12 
+                117.33495105561755,14 
+                2,14" data-comprimento="117.33495105561755"></polygon>
+                <polygon id="cabeca" fill="black"></polygon>
+              </svg>
+            </div><div class="draggable" data-x="105.59999084472656" data-y="122.23998260498047" data-colspan="8" style="position: absolute; transform: translate(105.6px, 122.24px) rotate(90deg);" data-name="Vetor" data-colstart="8" data-rowstart="1" data-colend="8" data-rowend="9">
+              <svg class="vetor is-selected" data-angle="90" width="247.0209495907738" viewBox="0 0 247.0209495907738 24" style="outline: yellow dotted 3px;">
+                <polygon id="base" fill="black" points="0,10 2,10 2,14 0,14"></polygon>
+                <polygon id="corpo" fill="black" points="2,10 
+                240.84542585100445,10 
+                247.0209495907738,12 
+                240.84542585100445,14 
+                2,14" data-comprimento="240.84542585100445"></polygon>
+                <polygon id="cabeca" fill="black"></polygon>
+              </svg>
+          </div>
+        `,
+        vectorsResult:`
+        <div class="draggable" data-x="167.68000030517578" data-y="311.0399703979492" data-colspan="4" style="position: absolute; transform: translate(167.68px, 311.04px) rotate(90deg);" data-name="Vetor" data-colstart="2" data-rowstart="1" data-colend="2" data-rowend="5">
+              <svg class="vetor is-selected" data-angle="90" width="123.5104747953869" viewBox="0 0 123.5104747953869 24" style="outline: none;">
+                <polygon id="base" fill="black" points="0,10 2,10 2,14 0,14"></polygon>
+                <polygon id="corpo" fill="black" points="2,10 
+                117.33495105561755,10 
+                123.5104747953869,12 
+                117.33495105561755,14 
+                2,14" data-comprimento="117.33495105561755"></polygon>
+                          <polygon id="cabeca" fill="black"></polygon>
+                        </svg>
+                      </div><div class="draggable" data-x="105.59999084472656" data-y="122.23998260498047" data-colspan="8" style="position: absolute; transform: translate(105.6px, 122.24px) rotate(90deg);" data-name="Vetor" data-colstart="8" data-rowstart="1" data-colend="8" data-rowend="9">
+                        <svg class="vetor is-selected" data-angle="90" width="247.0209495907738" viewBox="0 0 247.0209495907738 24" style="outline: none;">
+                          <polygon id="base" fill="black" points="0,10 2,10 2,14 0,14"></polygon>
+                          <polygon id="corpo" fill="black" points="2,10 
+                240.84542585100445,10 
+                247.0209495907738,12 
+                240.84542585100445,14 
+                2,14" data-comprimento="240.84542585100445"></polygon>
+                          <polygon id="cabeca" fill="black"></polygon>
+                        </svg>
+                    </div><div class="draggable" data-x="104.96000671386719" data-y="186.2399673461914" data-colspan="12" style="position: absolute; transform: translate(104.96px, 186.24px) rotate(90deg);" data-name="Vetor" data-colstart="10" data-rowstart="1" data-colend="10" data-rowend="13">
+              <svg class="vetor is-selected" data-angle="90" width="370.53142438616067" viewBox="0 0 370.53142438616067 24" style="outline: yellow dotted 3px;">
+                <polygon id="base" fill="red" points="0,10 2,10 2,14 0,14"></polygon>
+                <polygon id="corpo" fill="red" points="2,10 
+                364.3559006463913,10 
+                370.53142438616067,12 
+                364.3559006463913,14 
+                2,14" data-comprimento="364.3559006463913"></polygon>
+                <polygon id="cabeca" fill="black"></polygon>
+              </svg>
+            </div>
+        `
+      },
+      {
+        name:"img/quests-fase-two/q7.png",
+        id: null,
+        operationResult: 4,
+        vectors:`
+          <div class="draggable" data-x="43.519989013671875" data-y="220.79998779296875" data-colspan="10" style="position: absolute; transform: translate(43.52px, 220.8px) rotate(0deg);" data-name="Vetor" data-colstart="2" data-rowstart="8" data-colend="12" data-rowend="8">
+            <svg class="vetor is-selected" data-angle="0" width="308.77618698846726" viewBox="0 0 308.77618698846726 24" style="outline: none;">
+              <polygon id="base" fill="black" points="0,10 2,10 2,14 0,14"></polygon>
+              <polygon id="corpo" fill="black" points="2,10 
+              302.6006632486979,10 
+              308.77618698846726,12 
+              302.6006632486979,14 
+              2,14" data-comprimento="302.6006632486979"></polygon>
+              <polygon id="cabeca" fill="black"></polygon>
+            </svg>
+          </div><div class="draggable" data-x="289.9199981689453" data-y="278.39998626708984" data-colspan="6" style="position: absolute; transform: translate(289.92px, 278.4px) rotate(180deg);" data-name="Vetor" data-colstart="16" data-rowstart="10" data-colend="10" data-rowend="10">
+            <svg class="vetor is-selected" data-angle="180" width="185.26571219308033" viewBox="0 0 185.26571219308033 24" style="outline: yellow dotted 3px;">
+              <polygon id="base" fill="black" points="0,10 2,10 2,14 0,14"></polygon>
+              <polygon id="corpo" fill="black" points="2,10 
+              179.090188453311,10 
+              185.26571219308033,12 
+              179.090188453311,14 
+              2,14" data-comprimento="179.090188453311"></polygon>
+              <polygon id="cabeca" fill="black"></polygon>
+            </svg>
+          </div>
+        `,
+        vectorsResult:`
+          <div class="draggable" data-x="43.519989013671875" data-y="220.79998779296875" data-colspan="10" style="position: absolute; transform: translate(43.52px, 220.8px) rotate(0deg);" data-name="Vetor" data-colstart="2" data-rowstart="8" data-colend="12" data-rowend="8">
+                  <svg class="vetor is-selected" data-angle="0" width="308.77618698846726" viewBox="0 0 308.77618698846726 24" style="outline: none;">
+                    <polygon id="base" fill="black" points="0,10 2,10 2,14 0,14"></polygon>
+                    <polygon id="corpo" fill="black" points="2,10 
+            302.6006632486979,10 
+            308.77618698846726,12 
+            302.6006632486979,14 
+            2,14" data-comprimento="302.6006632486979"></polygon>
+                    <polygon id="cabeca" fill="black"></polygon>
+                  </svg>
+                </div><div class="draggable" data-x="170.24000549316406" data-y="276.4800033569336" data-colspan="6" style="position: absolute; transform: translate(170.24px, 276.48px) rotate(180deg);" data-name="Vetor" data-colstart="16" data-rowstart="10" data-colend="10" data-rowend="10">
+                  <svg class="vetor is-selected" data-angle="180" width="185.26571219308033" viewBox="0 0 185.26571219308033 24" style="outline: none;">
+                    <polygon id="base" fill="black" points="0,10 2,10 2,14 0,14"></polygon>
+                    <polygon id="corpo" fill="black" points="2,10 
+            179.090188453311,10 
+            185.26571219308033,12 
+            179.090188453311,14 
+            2,14" data-comprimento="179.090188453311"></polygon>
+                    <polygon id="cabeca" fill="black"></polygon>
+                  </svg>
+                </div><div class="draggable" data-x="43.52000427246094" data-y="158.72000122070312" data-colspan="4" style="position: absolute; transform: translate(43.52px, 158.72px) rotate(0deg);" data-name="Vetor" data-colstart="2" data-rowstart="6" data-colend="6" data-rowend="6">
+          <svg class="vetor is-selected" data-angle="0" width="123.5104747953869" viewBox="0 0 123.5104747953869 24" style="outline: yellow dotted 3px;">
+            <polygon id="base" fill="red" points="0,10 2,10 2,14 0,14"></polygon>
+            <polygon id="corpo" fill="red" points="2,10 
+            117.33495105561755,10 
+            123.5104747953869,12 
+            117.33495105561755,14 
+            2,14" data-comprimento="117.33495105561755"></polygon>
+            <polygon id="cabeca" fill="black"></polygon>
+          </svg>
+        </div>
+        `
       }
      
     ],
-    resolve:[
-
-    ]
+    
   }
 
   if(nunber == 1){
@@ -435,13 +906,61 @@ function getDataBase(nunber){
   // return JSON.parse(localStorage.getItem("dataBase")) 
 }
 
-
-
-
-
-function valid(){
-  let resposta = resolution()
+// localStorage.setItem("vectorsRegisted", JSON.stringify([]))
+// function registrar(){
+//     let conjuntoOfVectors = document.querySelectorAll(".draggable")
+//     let vectorsRegisted =  JSON.parse(localStorage.getItem("vectorsRegisted"))
+    
+//     txt = document.createElement("div")
  
+//     for(i=0; i< conjuntoOfVectors.length; i++){
+//       txt.appendChild(conjuntoOfVectors[i])
+//     }
+//     console.log(txt.innerHTML)
+    
+    
+//     vectorsRegisted[vectorsRegisted.length] = txt.innerHTML
+
+//     localStorage.setItem("vectorsRegisted", JSON.stringify(vectorsRegisted))
+
+    
+   
+    
+
+// }
+
+
+
+function valid(resultOfOpration, cardName){
+  
+
+  if(resultOfOpration){
+    
+     let result = currentDataBaseTwo.quests.find((el)=> el.operationResult == resultOfOpration)
+     let resultIndex = currentDataBaseTwo.quests.findIndex((el)=> el.name == cardName)
+  
+      if(result && (currentDataBaseTwo.quests.indexOf(result) == resultIndex)){
+        tocarSomAcerto()
+        warr("CORRETO!")
+        currentDataBaseTwo.quests[currentDataBaseTwo.quests.indexOf(result)].id = "conclued"
+        resert()
+        document.querySelector('#gride').innerHTML += currentDataBaseTwo.quests[currentDataBaseTwo.quests.indexOf(result)].vectorsResult
+        currentDataBaseTwo.quests.forEach((el)=>{
+             console.log(el.id)
+        })
+       
+        creatCardsOperetion(currentDataBaseTwo)
+      }else{
+        tocarSomErro()
+        warr("Erradoooooooo! humn... 😑")
+        
+      }
+    return
+  }
+
+
+  
+  let resposta = resolution()
   let quest = getDataBase(1) 
   
   
@@ -477,22 +996,25 @@ function valid(){
 
   let resolve = quest.find(ques => arraysDeObjetosIguais(ques, resposta));
   if(resolve){
-    alert("CORRETO!")
+    tocarSomAcerto()
+    warr("CORRETO!")
     resert()
     let resolveModified = modifiersToDataBase([resolve])
-    let newDataTable = createTables(modifiersToDataBase(getDataBase(1))) 
-    for ( i of newDataTable){
+    
+    for ( i of currentDataBase){
       if(arraysDeObjetosIguais(i, resolveModified[0])){
-        i[0].ID = "conclued"
-        createTables(newDataTable)
+        i[0].id = "conclued"
+      
       }
     }
 
-    
+    createTables(currentDataBase);
     
       
   }else{
-    alert("Erradoooooooo! humn... 😑")
+    tocarSomErro()
+    warr("Erradoooooooo! humn... 😑")
+   
   }
 
   
@@ -542,8 +1064,9 @@ function modifiersToDataBase(database){
       }
       
       // add key ID
-      i[0].ID = null
-      if (i[1]) {i[1].ID = null}
+      if (typeof i[0].id === "undefined") i[0].id = null;
+      if (i[1] && typeof i[1].id === "undefined") i[1].id = null;
+
     }
 
     
@@ -552,13 +1075,12 @@ function modifiersToDataBase(database){
 }
 
 function createTables(dataBase){
-
-  
+  conteinerTables.innerHTML = ""
   
   for (i of dataBase){
     if (i[1]){
           conteinerTables.innerHTML += `
-          <div class="cards conteiner-cards-table" data-ID="${i[0].ID}" >
+          <div class="cards conteiner-cards-table" id="${i[0].id}" >
               <div class="header-card">
                 <img class="title-card" src="img/vecktor.png" >
                 <spam class="nunber-card">${dataBase.indexOf(i) + 1}</spam>
@@ -584,7 +1106,7 @@ function createTables(dataBase){
           ` 
     }else{
         conteinerTables.innerHTML += `
-        <div class="cards conteiner-cards-table" data-ID="${i[0].ID}" >
+        <div class="cards conteiner-cards-table" id="${i[0].id}" >
            <div class="header-card">
                 <img class="title-card" src="img/vecktor.png" >
                 <spam class="nunber-card">${dataBase.indexOf(i) + 1}</spam>
@@ -610,132 +1132,156 @@ function createTables(dataBase){
 }
 createTables(modifiersToDataBase(getDataBase(1)))
 
-function creatCardsOperetion(){
-  let dataBaseTwo = getDataBase(2)
+function creatCardsOperetion(dataBaseTwo){
+  conteinerCardsOperations.innerHTML = ''
   for (i of dataBaseTwo.quests) {
     conteinerCardsOperations.innerHTML += `
-      <div class="cards cards-operetions" >
+      <div class="cards cards-operetions"  id="${i.id}">
           <div class="header-card">
             <img class="title-card" src="img/vecktor.png" >
-            <spam class="nunber-card">${dataBaseTwo.quests.indexOf(i) + 1}</spam>
+            <spam class="nunber-card">${dataBaseTwo.quests.indexOf(i) + 8}</spam>
           </div>
           <div class="cards-operetion">
-                <img width="100%" src=${i.name}>
+                <img data-selected="" class="img-vectors" width="100%" src=${i.name}>
+                
+               <div class="conteiner-btn-cards-operetion">
+                  <label class="conteiner-input" for="input-operetion-${dataBaseTwo.quests.indexOf(i)}">
+                    <span>Sua resposta:</span>
+                    <input id="input-operetion-${dataBaseTwo.quests.indexOf(i)}" class="input"  placeholder="___" type="number">
+                  </label> 
+                  <button class="btn-comfirm" >Cofirmar resposta!</button>
+               </div>
           </div>
       </div>
     `
 
   }
-  let cardsOperations = conteinerCardsOperations.querySelectorAll(".cards-operetions")
-  cardsOperations.forEach((card)=>{
-    card.addEventListener("click", ()=>{
-      cardsOperations.forEach((card)=>{card.id = ""})
-      card.id = "card-is-selected" 
+  let btnCardOperationConfirm = document.querySelectorAll(".btn-comfirm")
 
+  btnCardOperationConfirm = Array.from(btnCardOperationConfirm)
+
+  btnCardOperationConfirm.forEach((el)=>{
+    el.addEventListener("click",()=>{
+      let  cardName = el.closest(".cards-operetion").querySelector("img").getAttribute("src")
+      let resultOfOpration = getInputValueVector(`#input-operetion-${btnCardOperationConfirm.indexOf(el)}`)
+      if (resultOfOpration) {
+        valid(resultOfOpration, cardName)
+        clearInputValueVector(`#input-operetion-${btnCardOperationConfirm.indexOf(el)}`)
+        
+      }else{
+        warr("Por favor, digte um valor.")
+        tocarSomErro()
+      }
       
-      console.log(dataBaseTwo.quests[0].vectors[0].colStart)
-      
-      creatVectorByCoords({
-        colStart: dataBaseTwo.quests[0].vectors[1].colStart,
-        rowStart: dataBaseTwo.quests[0].vectors[1].rowStart,
-        colEnd: dataBaseTwo.quests[0].vectors[1].colEnd,
-        rowEnd: dataBaseTwo.quests[0].vectors[1].rowEnd
-      });
-      creatVectorByCoords({
-        colStart: dataBaseTwo.quests[0].vectors[0].colStart,
-        rowStart: dataBaseTwo.quests[0].vectors[0].rowStart,
-        colEnd: dataBaseTwo.quests[0].vectors[0].colEnd,
-        rowEnd: dataBaseTwo.quests[0].vectors[0].rowEnd
-      })
     })
   })
+
+  let imgVectors = Array.from(conteinerCardsOperations.querySelectorAll(".img-vectors"));
+ 
+  imgVectors.forEach((img)=>{
+    img.addEventListener("click", ()=>{
+      resert()
+      
+      document.querySelectorAll(".img-vectors").forEach((img)=>{img.setAttribute("data-selected", "")})
+      img.setAttribute("data-selected", "card-is-selected")
+
+      document.querySelector("#gride").innerHTML += getDataBase(2).quests[imgVectors.indexOf(img)].vectors;
+
+      
+   
+    })
+
+  })
+
   
 
 }
-creatCardsOperetion()
+creatCardsOperetion(getDataBase(2))
 
 
-function getInputModuloVector(){
-  let inputModulo = document.querySelector("#input-modulo").value
+function getInputValueVector(input){
+  let inputModulo = document.querySelector(input).value
   return inputModulo
 }
 
-function clearInputModuloVector (){
-  document.querySelector("#input-modulo").value = ""
+function clearInputValueVector(input){
+  document.querySelector(input).value = ""
 }
 
-function creatVectorByCoords({ colStart, rowStart, colEnd, rowEnd }) {
-  const grid = document.getElementById("gride");
-  const gridRect = grid.getBoundingClientRect();
 
-  const cellWidth = gridRect.width / 21;
-  const cellHeight = gridRect.height / 15;
 
-  const deltaX = colEnd - colStart;
-  const deltaY = rowEnd - rowStart;
 
-  const angleRad = Math.atan2(deltaY, deltaX);
-  const angleDeg = angleRad * (180 / Math.PI);
 
-  const comprimento = Math.sqrt(deltaX ** 2 + deltaY ** 2) * cellWidth;
-  const altura = 24;
+// //------------------------------------
+// // calculadora 
+// //------------------------------------
+// let toggleBtn = Array.from(document.querySelectorAll('.toggleCalc'));
+// let calc = Array.from(document.querySelectorAll('.calc'));
+// let display = Array.from(document.querySelectorAll('.display'));
 
-  const tamCabeca = cellWidth * 0.6;
-  const corpoComprimento = comprimento - tamCabeca;
+// // Estados independentes para cada calculadora
+// let expressions = Array(calc.length).fill('');
 
-  // Recalcular pontos SVG
-  const base = `0,10 2,10 2,14 0,14`;
-  const corpo = `2,10 ${corpoComprimento},10 ${corpoComprimento},14 2,14`;
-  const cabeca = `2,0 ${corpoComprimento},24 ${comprimento},12`;
+// // Alternar visibilidade de cada calculadora
+// toggleBtn.forEach((el) => {
+//   el.addEventListener('click', () => {
+//     const i = toggleBtn.indexOf(el);
+//     const visible = calc[i].getAttribute('data-display') === 'false';
+//     calc[i].setAttribute('data-display', visible ? 'true' : 'false');
+//   });
+// });
 
-  // Criar wrapper
-  const wrapper = document.createElement("div");
-  wrapper.classList.add("draggable");
-  wrapper.style.position = "absolute";
-  wrapper.setAttribute("data-x", colStart * cellWidth);
-  wrapper.setAttribute("data-y", rowStart * cellHeight);
-  wrapper.setAttribute("data-colspan", Math.round(comprimento / cellWidth));
-  wrapper.setAttribute("data-name", "Vetor");
+// // Função de avaliação segura
+// function safeEval(expr) {
+//   // Substitui ^ por ** para potenciação
+//   expr = expr.replace(/\^/g, '**');
 
-  // Criar SVG com estrutura visual idêntica ao seu
-  wrapper.innerHTML = `
-    <svg class="vetor" data-angle="${angleDeg}" 
-         width="${comprimento}" height="${altura}" 
-         viewBox="0 0 ${comprimento} ${altura}">
-      <polygon id="base" fill="white" points="${base}" />
-      <polygon id="corpo" fill="white" points="${corpo}" data-comprimento="${corpoComprimento}" />
-      
-    </svg>
-  `;
+//   // Apenas números, operadores e parênteses permitidos
+//   if (!/^[0-9+\-*/().\s**]+$/.test(expr)) {
+//     throw new Error('Expressão inválida');
+//   }
 
-  const svg = wrapper.querySelector("svg");
+//   // Usa eval apenas sobre expressões limpas
+//   return eval(expr);
+// }
 
-  svg.addEventListener("click", () => {
-    vetorSelecionado = svg;
-    document.querySelectorAll(".vetor").forEach(v => {
-      v.classList.remove("is-selected");
-      v.style.outline = "none";
-    });
-    svg.classList.add("is-selected");
-    svg.style.outline = "3px dotted yellow";
-  });
+// // Eventos para cada calculadora
+// calc.forEach((el) => {
+//   el.addEventListener('click', (e) => {
+//     const btn = e.target.closest('button');
+//     if (!btn) return;
+//     const i = calc.indexOf(el);
+//     const val = btn.textContent.trim();
 
-  // Posicionar e aplicar rotação
-  const x = colStart * cellWidth;
-  const y = rowStart * cellHeight;
-  wrapper.style.left = `${x}px`;
-  wrapper.style.top = `${y}px`;
-  wrapper.style.transform = `rotate(${angleDeg}deg)`;
+//     if (val === 'C') {
+//       expressions[i] = '';
+//       display[i].value = '';
+//       return;
+//     }
 
-  grid.appendChild(wrapper);
+//     if (val === '=') {
+//       try {
+//         const result = safeEval(expressions[i]);
+//         valid(result)
+//         display[i].value = String(result);
+//         expressions[i] = String(result);
+//       } catch {
+//         display[i].value = 'Erro';
+//         expressions[i] = '';
+//       }
+//       return;
+//     }
 
-  // Auto selecionar vetor
-  svg.dispatchEvent(new Event("click"));
+//     expressions[i] += val;
+//     display[i].value = expressions[i];
+//   });
+// });
 
-  // Atualizar coordenadas do vetor
-  if (typeof atualizarVetoresComGrid === "function") atualizarVetoresComGrid();
-  if (typeof resolution === "function") resolution();
-}
+
+
+
+
+
 
 
 
